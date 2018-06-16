@@ -103,6 +103,5 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-// require('./socketIO/socketServer');
 
 module.exports = app;
