@@ -1,7 +1,7 @@
 {
   "MONGO_DATABASE_USERNAME": "admin",
-  "MONGO_DATABASE_PASSWORD": "admin",
-  "MONGO_DATABASE_URL": "@ds135760.mlab.com:35760/30shine_dev",
+  "MONGO_DATABASE_PASSWORD": "admin1",
+  "MONGO_DATABASE_URL": "@ds261460.mlab.com:61460/iot_final",
   "APP_SECRET_KEY": "Khang.Pham",
   "API_PUSH_NOTIC": "https://api-push-notic.30shine.com"
 }

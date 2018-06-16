@@ -41,10 +41,17 @@ app.use(logger('dev'));
 // app.use(express.json());
 // app.use(express.urlencoded({extended: false}));
 
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({
+    limit: '50mb'
+}));
+app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    extended: true
+}));
 
-app.use(cookieParser(require("./config.json").APP_SECRET_KEY, {maxAge: 60 * 60 * 1000 * 24}));
+app.use(cookieParser(require("./config.json").APP_SECRET_KEY, {
+    maxAge: 60 * 60 * 1000 * 24
+}));
 
 
 app.use(session({
@@ -56,9 +63,12 @@ app.use(session({
     //     pass:require("./config.json").MONGO_DATABASE_PASSWORD
     // }),
     cookie: {
-        maxAge: 60 * 60 * 1000 * 24//1 day
+        maxAge: 60 * 60 * 1000 * 24 //1 day
     },
-    store: new MongoStore({mongooseConnection: mongoose.connection, clear_interval: 3600}),// Store session
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        clear_interval: 3600
+    }), // Store session
     proxy: true,
     resave: true,
     saveUninitialized: true,
@@ -93,6 +103,6 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-
+// require('./socketIO/socketServer');
 
 module.exports = app;
