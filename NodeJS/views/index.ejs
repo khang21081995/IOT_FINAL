@@ -1,11 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+  <script src="/public/javascripts/common.js"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+</head>
+
+<body>
+  <div class="container">
+    <h2>List Devices online!</h2>
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>Device Mac</th>
+          <th>Device Name</th>
+          <th colspan="2">Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+  </div>
+  <script>
+    window.onload = function () {
+      var tableBody = $("#tableBody");
+
+      console.log('window - onload');
+      var socket = io();
+      socket.emit("web_connected")
+      socket.on("7e:e9:17:2d:e6:b4_add_data", function (data) {
+        console.log(data);
+      });
+
+      function reload() {
+        callAjax("", "/api/socket/listConnectedDevices", "GET", function (xhr, status) {}, function (xhr, status,
+          error) {
+          if (error) {
+            alert("Lỗi lấy dữ liệu!!!\r\nXin vui lòng thử lại");
+          }
+        }, function (result, status, xhr) {
+          let item = '<tr>';
+          result.devices.forEach(Element => {
+            item += '<td>' + Element + '</td>'
+            item += '<td>' + 'Tên Thiết bị(//TODO)' + '</td>'
+            item += '<td><a href = "/device?mac=' + Element +
+              '" target="_blank" class = "btn btn-primary" role = "button" > Remote </a></td>'
+            item += '<td><a href = "/addcode?mac=' + Element +
+              '" target="_blank" class = "btn btn-info" role = "button" > Add Code </a></td>'
+          });
+          tableBody.empty();
+          tableBody.append(item + '<tr>');
+        }, false);
+      }
+
+      reload();
+
+      socket.on("device_disconnected", function (mac) {
+        reload();
+      })
+      socket.on("new_device_connected", function (mac) {
+        reload();
+      })
+    };
+  </script>
+</body>
+
 </html>

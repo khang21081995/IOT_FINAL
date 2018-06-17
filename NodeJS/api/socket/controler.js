@@ -1,8 +1,13 @@
-
 function pushNotice(req, res) {
     var io = require('../../socketIO/socketServer').io;
     var keyEvent = (req.body.key_event + "").trim();
     var pushData = req.body.push_data;
+    var mac = req.body.mac_address;
+
+    if (require('../../socketIO/socketServer').mapConnectedClient.get(mac)) {
+        io = require('../../socketIO/socketServer').mapConnectedClient.get(mac);
+    }
+
 
     if (keyEvent !== 'undefined' && pushData) {
         io.emit(keyEvent, pushData);
@@ -18,7 +23,23 @@ function pushNotice(req, res) {
     }
 }
 
+function getConnectedDevides(req, res) {
+    var mapDevide = require('../../socketIO/socketServer').mapConnectedClient;
+    var iter = mapDevide.keys();
+    var a = iter.next().value;
+    var b = [];
+    // console.log(a.value);
+    // console.log(iter.next());
+    while (a) {
+        b.push(a);
+        a = iter.next().value;
+    }
+    res.json({
+        devices: b
+    });
+}
 
 module.exports = {
-    pushNotice: pushNotice
+    pushNotice: pushNotice,
+    getConnectedDevides: getConnectedDevides
 }

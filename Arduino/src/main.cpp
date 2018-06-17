@@ -51,7 +51,7 @@ void connectSocketServer()
 
     if (client.connected())
     {
-        client.send("connected", "MAC", getMAC());
+        client.send("devide_connected", "MAC", getMAC());
         // client.postREST("")
     }
 }
@@ -69,21 +69,21 @@ long interval = 2000;
 
 void keepAlive()
 {
-    if (millis() - previousMillis > interval)
-    {
-        // Serial.println("keepAlive");
-        previousMillis = millis();
-        client.send("keepAlive", "keepAlive", "keepAlive");
-    }
-
     if (!client.connected())
     {
         Serial.println("reconnect");
         client.reconnect(host, port);
         if (client.connected())
         {
-            client.send("connected", "MAC", getMAC());
+            client.send("devide_connected", "MAC", getMAC());
         }
+    }
+
+    if (millis() - previousMillis > interval)
+    {
+        // Serial.println("keepAlive");
+        previousMillis = millis();
+        client.send("keepAlive", "keepAlive", "keepAlive");
     }
 }
 
