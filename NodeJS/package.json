@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm config set -g production false && nodemon ./bin/www",
+    "start": "npm config set -g production false && nodemon ./server/www",
     "startProduction": "npm config set -g production true && npm i && node ./bin/www"
   },
   "dependencies": {
