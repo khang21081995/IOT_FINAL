@@ -9,6 +9,7 @@
 #include <IRsend.h>
 // #include <SocketIOClient.h>
 #include <SocketIoClient.h>
+#include <string.h>
 
 extern "C"
 {
@@ -45,14 +46,14 @@ ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
 
 // char host[] = "192.168.5.9";
-String host = "10.22.48.244";
+char *host = "192.168.5.9";
 int port = 3000;
 
 /**
  * WiFi config
 */
-const char *ssid = "MSE_Students";
-const char *password = "MSE@2017";
+const char *ssid = "HKT Tang 2";
+const char *password = "123456789";
 byte mac[6];
 
 String getMAC()
@@ -85,7 +86,7 @@ void connectWIFI()
 }
 String buildRawForm(const decode_results *result)
 {
-    String output = uint64ToString(getCorrectedRawLength(result), 10) + "|";
+    String output = uint64ToString(getCorrectedRawLength(result), 10) + ",";
     for (uint16_t i = 1; i < result->rawlen; i++)
     {
         uint32_t usecs;
@@ -107,19 +108,46 @@ String buildRawForm(const decode_results *result)
     }
     return output;
 }
+
 void onSend(const char *payload, size_t length)
 {
-    uint32_t free = system_get_free_heap_size();
-    Serial.println(free);
-    Serial.printf("got message: %s\n", payload);
+    char *str = const_cast<char *>(payload);
+    char *ptr = strtok(str, ",");
+    if (ptr == NULL)
+    {
+        return;
+    }
+    int codeLength = atoi(ptr);
+    if (codeLength == 0)
+        return;
+    int count = 0;
+    uint16_t rawData[codeLength];
+    ptr = strtok(NULL, ",");
+    while (ptr != NULL)
+    {
+        rawData[count] = atoi(ptr);
+        count++;
+        ptr = strtok(NULL, ",");
+    }
+    if (count == codeLength)
+    {
+        Serial.print("Send:");
+        count = 0;
+        while (count != codeLength)
+        {
+            Serial.printf("%d,", rawData[count]);
+            count++;
+        };
+        irsend.sendRaw(rawData, codeLength, 38);
+    }
+    else
+        Serial.println("Fail!!!");
 }
 
 void connectSocketServer()
 {
     webSocket.on("send", onSend);
-
-    webSocket.begin("192.168.5.9", 3000);
-
+    webSocket.begin(host, 3000);
     webSocket.emit("device_connected", getMAC());
 }
 
