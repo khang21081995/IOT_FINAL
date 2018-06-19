@@ -45,14 +45,14 @@ ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
 
 // char host[] = "192.168.5.9";
-String host = "192.168.5.9";
+String host = "10.22.48.244";
 int port = 3000;
 
 /**
  * WiFi config
 */
-const char *ssid = "HKT Tang 2";
-const char *password = "123456789";
+const char *ssid = "MSE_Students";
+const char *password = "MSE@2017";
 byte mac[6];
 
 String getMAC()

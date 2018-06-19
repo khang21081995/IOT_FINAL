@@ -23,5 +23,9 @@
         "slist": "cpp",
         "initializer_list": "cpp",
         "valarray": "cpp"
+    },
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/khangpq/.platformio/penv/bin:/Users/khangpq/.platformio/penv:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet",
+        "PLATFORMIO_CALLER": "vscode"
     }
 }
