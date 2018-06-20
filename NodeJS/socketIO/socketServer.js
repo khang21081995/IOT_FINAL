@@ -10,8 +10,8 @@ function socketHandle(socket) {
         connectedClient.set(mac, socket);
 
         socket.on("addData", function (data) {
-            console.log(data);
-            // io.emit(mac + "_add_data", data);
+            // console.log(data);
+            io.emit(mac + "_add_data", data);
         });
         
         // io.emit("new_device_connected", mac);

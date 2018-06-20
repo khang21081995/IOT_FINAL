@@ -4,6 +4,7 @@ var controller = require('./controler');
 
 
 router.post("/push", controller.pushNotice);
-router.get("/listConnectedDevices", controller.getConnectedDevides);
+router.get("/listMacOnline", controller.getConnectedDevides);
+router.get("/listDevices", controller.listDevices);
 
 module.exports = router;

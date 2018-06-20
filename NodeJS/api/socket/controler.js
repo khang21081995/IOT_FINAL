@@ -1,3 +1,5 @@
+var request = require('request');
+
 function pushNotice(req, res) {
     var io = require('../../socketIO/socketServer').io;
     var keyEvent = (req.body.key_event + "").trim();
@@ -34,12 +36,52 @@ function getConnectedDevides(req, res) {
         b.push(a);
         a = iter.next().value;
     }
+    if (res)
+        res.json({
+            devices: b
+        });
+}
+
+function getConnectedDevides(req, res) {
+    var mapDevide = require('../../socketIO/socketServer').mapConnectedClient;
+    var iter = mapDevide.keys();
+    var a = iter.next().value;
+    var b = [];
+    // console.log(a.value);
+    // console.log(iter.next());
+    while (a) {
+        b.push(a);
+        a = iter.next().value;
+    }
     res.json({
         devices: b
     });
 }
 
+function listDevices(req, res) {
+    var api = require('../../config.js').API_CLOUD + "/api/device/get";
+    var macs = getConnectedDevides();
+    var body = {
+        macList: macs
+    };
+    request.post(api, {
+        body: body,
+        json: true
+    }, function (err, response, body) {
+        if (err) {
+            res.status(503).json({
+                message: String(err)
+            });
+            return;
+        } else {
+            res.json(body);
+        }
+
+    });
+}
 module.exports = {
     pushNotice: pushNotice,
-    getConnectedDevides: getConnectedDevides
-}
+    getConnectedDevides: getConnectedDevides,
+    listDevices: listDevices
+
+};

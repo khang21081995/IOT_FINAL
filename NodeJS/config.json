@@ -3,5 +3,6 @@
   "MONGO_DATABASE_PASSWORD": "admin1",
   "MONGO_DATABASE_URL": "@ds261460.mlab.com:61460/iot_final",
   "APP_SECRET_KEY": "Khang.Pham",
-  "API_PUSH_NOTIC": "https://api-push-notic.30shine.com"
+  "API_PUSH_NOTIC": "localhost:3000",
+  "API_CLOUD": "localhost:3000"
 }
