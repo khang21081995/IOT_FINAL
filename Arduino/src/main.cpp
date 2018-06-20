@@ -144,9 +144,15 @@ void onSend(const char *payload, size_t length)
         Serial.println("Fail!!!");
 }
 
+void onRegistrationMac(const char *payload, size_t length)
+{
+    webSocket.emit("device_connected", getMAC());
+}
+
 void connectSocketServer()
 {
     webSocket.on("send", onSend);
+    webSocket.on("MACregistration", onRegistrationMac);
     webSocket.begin(host, 3000);
     webSocket.emit("device_connected", getMAC());
 }

@@ -25,6 +25,7 @@ db.on('error', function (err) {
 });
 db.once('open', function () {
     log.info("DB connection success! ");
+    console.log("DB connection success! ");
 });
 
 

@@ -53,14 +53,17 @@ function getConnectedDevides(req, res) {
         b.push(a);
         a = iter.next().value;
     }
-    res.json({
-        devices: b
-    });
+    if (res)
+        res.json({
+            devices: b
+        });
+    return b;
 }
 
 function listDevices(req, res) {
-    var api = require('../../config.js').API_CLOUD + "/api/device/get";
+    var api = require('../../config.json').API_CLOUD + "/api/device/get";
     var macs = getConnectedDevides();
+    console.log(macs);
     var body = {
         macList: macs
     };
