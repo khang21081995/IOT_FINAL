@@ -3,14 +3,13 @@ var connectedClient = new Map();
 
 function socketHandle(socket) {
     console.log("New user!!!");
-
     socket.on("device_connected", function (data) {
         var mac = data;
         console.log("User with mac: " + mac + " connected");
         connectedClient.set(mac, socket);
 
         socket.on("addData", function (data) {
-            // console.log(data);
+            console.log(data);
             io.emit(mac + "_add_data", data);
         });
         

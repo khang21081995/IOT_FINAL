@@ -7,11 +7,12 @@
 var app = require('../app');
 var http = require('http');
 var log = require('../utils/logger');
+var cf = require('./config');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || cf.getPort());
 app.set('port', port);
 
 /**
@@ -102,7 +103,7 @@ io.on('connection', function (socket) {
   require('../socketIO/socketServer').socketHandle(socket);
 });
 
-io.emit('MACregistration','using for client still running and server is restart')
+
 
 module.exports.io = io;
 // module.exports.server = server;

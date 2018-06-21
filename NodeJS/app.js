@@ -13,9 +13,9 @@ var MongoStore = require('connect-mongo')(session);
 var log = require('./utils/logger');
 
 /****************************** Mongo DB  ******************************/
-var db_username = require("./config.json").MONGO_DATABASE_USERNAME;
-var db_password = require("./config.json").MONGO_DATABASE_PASSWORD;
-var db_url = require("./config.json").MONGO_DATABASE_URL;
+var db_username = require("./config").MONGO_DATABASE_USERNAME;
+var db_password = require("./config").MONGO_DATABASE_PASSWORD;
+var db_url = require("./config").MONGO_DATABASE_URL;
 var connection_string = "mongodb://" + db_username + ":" + db_password + db_url;
 mongoose.connect(connection_string);
 
@@ -26,6 +26,7 @@ db.on('error', function (err) {
 db.once('open', function () {
     log.info("DB connection success! ");
     console.log("DB connection success! ");
+    require('./socketIO/socketServer').io.emit('MACregistration', 'using for client still running and server is restart');
 });
 
 
@@ -52,18 +53,18 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(cookieParser(require("./config.json").APP_SECRET_KEY, {
+app.use(cookieParser(require("./config").APP_SECRET_KEY, {
     maxAge: 60 * 60 * 1000 * 24
 }));
 
 
 app.use(session({
-    secret: require("./config.json").APP_SECRET_KEY,
+    secret: require("./config").APP_SECRET_KEY,
     name: 'KhangPQ',
     // store: new RedisStore({
-    //     host: require("./config.json").REDIS_HOST,
-    //     port: require("./config.json").REDIS_PORT,
-    //     pass:require("./config.json").MONGO_DATABASE_PASSWORD
+    //     host: require("./config").REDIS_HOST,
+    //     port: require("./config").REDIS_PORT,
+    //     pass:require("./config").MONGO_DATABASE_PASSWORD
     // }),
     cookie: {
         maxAge: 60 * 60 * 1000 * 24 //1 day

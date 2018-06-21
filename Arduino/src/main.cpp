@@ -154,6 +154,7 @@ void connectSocketServer()
     webSocket.on("send", onSend);
     webSocket.on("MACregistration", onRegistrationMac);
     webSocket.begin(host, 3000);
+    delay(500);
     webSocket.emit("device_connected", getMAC());
 }
 

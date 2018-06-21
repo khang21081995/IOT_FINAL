@@ -13,25 +13,39 @@ function pushNotice(req, res) {
 
     if (keyEvent !== 'undefined' && pushData) {
         io.emit(keyEvent, pushData);
-        res.status(200).json({
-            status: true,
-            message: "push data success to devices listening at event " + keyEvent
-        });
+        if (res)
+            res.status(200).json({
+                status: true,
+                message: "push data success to devices listening at event " + keyEvent
+            });
     } else {
-        res.status(400).json({
-            status: false,
-            message: "Invalid input"
-        });
+        if (res)
+            res.status(400).json({
+                status: false,
+                message: "Invalid input"
+            });
     }
 }
 
+var REQ = {
+    body: {
+        key_event: "MACregistration",
+        push_data: "refresh list devices"
+    }
+};
+
+setInterval(function () {
+    pushNotice(REQ);
+}, 10 * 1000 * 60);
+
 function getConnectedDevides(req, res) {
+
+    var b = [];
+
     var mapDevide = require('../../socketIO/socketServer').mapConnectedClient;
     var iter = mapDevide.keys();
     var a = iter.next().value;
-    var b = [];
-    // console.log(a.value);
-    // console.log(iter.next());
+
     while (a) {
         b.push(a);
         a = iter.next().value;
@@ -40,28 +54,13 @@ function getConnectedDevides(req, res) {
         res.json({
             devices: b
         });
-}
 
-function getConnectedDevides(req, res) {
-    var mapDevide = require('../../socketIO/socketServer').mapConnectedClient;
-    var iter = mapDevide.keys();
-    var a = iter.next().value;
-    var b = [];
-    // console.log(a.value);
-    // console.log(iter.next());
-    while (a) {
-        b.push(a);
-        a = iter.next().value;
-    }
-    if (res)
-        res.json({
-            devices: b
-        });
     return b;
+
 }
 
 function listDevices(req, res) {
-    var api = require('../../config.json').API_CLOUD + "/api/device/get";
+    var api = require('../../config').API_CLOUD + "/api/device/get";
     var macs = getConnectedDevides();
     console.log(macs);
     var body = {
@@ -79,7 +78,6 @@ function listDevices(req, res) {
         } else {
             res.json(body);
         }
-
     });
 }
 module.exports = {
