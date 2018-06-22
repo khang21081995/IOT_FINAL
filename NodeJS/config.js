@@ -9,7 +9,7 @@ module.exports = {
   TYPE: "http",
   PORT: "3000",
   SWAGGER: {
-    APIS_PATH: ['./api/device/*.js', './api/socket/*.js'],
+    APIS_PATH: ['./api/device/*.js', './api/socket/*.js', './api/code/*.js'],
     APIS_TAG: [{
       name: "Devices",
       description: "APIs for manage device"

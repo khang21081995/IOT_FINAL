@@ -139,9 +139,20 @@ void onSend(const char *payload, size_t length)
             count++;
         };
         irsend.sendRaw(rawData, codeLength, 38);
+        digitalWrite(BUILTIN_LED, LOW);
+        delay(200);
+        digitalWrite(BUILTIN_LED, HIGH);
     }
-    else
-        Serial.println("Fail!!!");
+    else {
+        digitalWrite(BUILTIN_LED, LOW);
+        delay(200);
+        digitalWrite(BUILTIN_LED, HIGH);
+        delay(200);
+        digitalWrite(BUILTIN_LED, LOW);
+        delay(200);
+        digitalWrite(BUILTIN_LED, HIGH);
+    }
+        
 }
 
 void onRegistrationMac(const char *payload, size_t length)
@@ -162,8 +173,11 @@ void setup()
 {
     // 115200
     Serial.begin(BAUD_RATE, SERIAL_8N1, SERIAL_TX_ONLY);
+
     while (!Serial) // Wait for the serial connection to be establised.
         delay(50);
+    pinMode(BUILTIN_LED, OUTPUT);
+    digitalWrite(BUILTIN_LED, HIGH);
     connectWIFI();
     connectSocketServer();
 

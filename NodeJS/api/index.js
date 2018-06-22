@@ -5,5 +5,6 @@ var router = express.Router();
 router.use('/template', require('./template'));
 router.use('/socket', require('./socket'));
 router.use('/device', require('./device'));
+router.use('/code', require('./code'));
 
 module.exports = router;
