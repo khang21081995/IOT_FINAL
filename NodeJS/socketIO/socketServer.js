@@ -12,6 +12,14 @@ function socketHandle(socket) {
             console.log(data);
             io.emit(mac + "_add_data", data);
         });
+        socket.on("re-humidity", function (data) {
+            console.log(data);
+            io.emit(mac + "re-humidity", data);
+        });
+        socket.on("re-temperature", function (data) {
+            console.log(data);
+            io.emit(mac + "re-temperature", data);
+        });
         
         // io.emit("new_device_connected", mac);
         socket.on('disconnect', function () {

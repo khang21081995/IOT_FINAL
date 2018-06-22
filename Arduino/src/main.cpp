@@ -11,6 +11,16 @@
 #include <SocketIoClient.h>
 #include <string.h>
 
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
+
+#define DHTPIN 5      // Pin which is connected to the DHT sensor.
+#define DHTTYPE DHT22 // DHT 22 (AM2302)
+
+DHT_Unified dht(DHTPIN, DHTTYPE);
+
+uint32_t delayMS;
 extern "C"
 {
 #include "user_interface.h"
@@ -143,7 +153,8 @@ void onSend(const char *payload, size_t length)
         delay(200);
         digitalWrite(BUILTIN_LED, HIGH);
     }
-    else {
+    else
+    {
         digitalWrite(BUILTIN_LED, LOW);
         delay(200);
         digitalWrite(BUILTIN_LED, HIGH);
@@ -152,18 +163,37 @@ void onSend(const char *payload, size_t length)
         delay(200);
         digitalWrite(BUILTIN_LED, HIGH);
     }
-        
 }
 
 void onRegistrationMac(const char *payload, size_t length)
 {
     webSocket.emit("device_connected", getMAC());
 }
+void onTemperature(const char *payload, size_t length)
+{
+    sensors_event_t event;
+    dht.temperature().getEvent(&event);
+    if (!isnan(event.temperature))
+    {
+        webSocket.emit("re-temperature", String(event.temperature));
+    }
+}
+void onHumidity(const char *payload, size_t length)
+{
+    sensors_event_t event;
+    dht.humidity().getEvent(&event);
+    if (!isnan(event.relative_humidity))
+    {
+        webSocket.emit("re-humidity", String(event.relative_humidity));
+    }
+}
 
 void connectSocketServer()
 {
     webSocket.on("send", onSend);
     webSocket.on("MACregistration", onRegistrationMac);
+    webSocket.on("temperature", onTemperature);
+    webSocket.on("humidity", onHumidity);
     webSocket.begin(host, 3000);
     delay(500);
     webSocket.emit("device_connected", getMAC());
@@ -173,7 +203,7 @@ void setup()
 {
     // 115200
     Serial.begin(BAUD_RATE, SERIAL_8N1, SERIAL_TX_ONLY);
-
+    dht.begin();
     while (!Serial) // Wait for the serial connection to be establised.
         delay(50);
     pinMode(BUILTIN_LED, OUTPUT);
@@ -187,8 +217,6 @@ void setup()
 #endif // DECODE_HASH
     irsend.begin();
     irrecv.enableIRIn(); // Start the receiver
-    uint32_t free = system_get_free_heap_size();
-    Serial.println(free);
 }
 
 void loop()
