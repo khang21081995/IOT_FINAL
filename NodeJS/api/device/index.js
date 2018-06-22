@@ -6,7 +6,7 @@ var controller = require('./controler');
 
 /**
  * @swagger
- * /devide:
+ * /device:
  *   post:
  *     tags:
  *       - Devices
@@ -37,7 +37,7 @@ router.post('/', controller.addDevice);
 
 /**
  * @swagger
- * /devide:
+ * /device:
  *   put:
  *     tags:
  *       - Devices
@@ -69,7 +69,7 @@ router.put('/', controller.updateDevice);
 
 /**
  * @swagger
- * /devide/get:
+ * /device/get:
  *   post:
  *     tags:
  *       - Devices
