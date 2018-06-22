@@ -13,12 +13,12 @@ var controller = require('./controler');
  *       - application/json
  *     parameters:
  *       - name: info about device
- *         description: info about device want to get
+ *         description: info about device want to send code.
  *         in: body
  *         required: true
  *         schema:
  *           type: object
- *           example: {"key_event": "send","push_data":"Code send here","mac_address":"Mac of device you need to send code"}
+ *           example: {"key_event": "send","push_data":"135,9108,4392,680,450,678,452,680,1580,678,452,678,452,678,452,678,452,680,1578,680,450,678,452,678,1580,678,452,678,1580,678,1580,680,1580,678,1578,680,1578,678,1580,680,450,680,1578,680,452,678,452,678,452,678,450,678,452,678,452,678,1580,676,454,678,1578,680,1578,678,1580,678,1580,678,40872,9104,4394,678,452,678,452,678,1580,680,452,678,452,678,452,680,452,678,1578,680,452,678,452,678,1580,678,450,678,1580,678,1578,680,1578,680,1578,680,1578,680,1578,680,452,680,1578,678,452,678,452,678,452,678,452,678,452,678,452,678,1578,678,452,678,1580,678,1578,682,1576,680,1580,678","mac_address":"7e:e9:17:2d:e6:b4"}
  *     responses:
  *       200:
  *         description: thành công.

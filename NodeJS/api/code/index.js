@@ -62,7 +62,7 @@ router.post('/', controller.addCode);
  *       503:
  *         description: Dịch vụ không sẵn dùng
  */
-router.post('/', controller.update);
+router.put('/', controller.update);
 
 /**
  * @swagger

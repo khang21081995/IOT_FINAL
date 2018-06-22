@@ -20,7 +20,7 @@ var controller = require('./controler');
  *         required: true
  *         schema:
  *           type: object
- *           example: {"mac":"1a:2b:3c:4d:5e:6f","name":"Phòng ngủ 1"}
+ *           example: {"mac":"7e:e9:17:2d:e6:b4","name":"Phòng ngủ 1"}
  *     responses:
  *       200:
  *         description: thành công.
@@ -51,7 +51,7 @@ router.post('/', controller.addDevice);
  *         required: true
  *         schema:
  *           type: object
- *           example: {"mac":"1a:2b:3c:4d:5e:6f","name":"Phòng ngủ 1"}
+ *           example: {"mac":"7e:e9:17:2d:e6:b4","name":"Phòng ngủ 1"}
  *     responses:
  *       200:
  *         description: thành công.
@@ -83,7 +83,7 @@ router.put('/', controller.updateDevice);
  *         required: true
  *         schema:
  *           type: object
- *           example: {"macList": ["1a:2b:3c:4d:5e:6f","6a:6b:6c:6d:5f:2a"]}
+ *           example: {"macList": ["7e:e9:17:2d:e6:b4","6a:6b:6c:6d:5f:2a"]}
  *     responses:
  *       200:
  *         description: thành công.
