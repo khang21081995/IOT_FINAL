@@ -56,14 +56,14 @@ ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
 
 // char host[] = "192.168.5.9";
-char *host = "192.168.5.9";
-int port = 3000;
+char *host = "nginx.30shine.com";
+int port = 28888;
 
 /**
  * WiFi config
 */
-const char *ssid = "HKT Tang 2";
-const char *password = "123456789";
+const char *ssid = "IT";
+const char *password = "phucvuhetminh";
 byte mac[6];
 
 String getMAC()
@@ -187,6 +187,41 @@ void onHumidity(const char *payload, size_t length)
         webSocket.emit("re-humidity", String(event.relative_humidity));
     }
 }
+void onTemp(const char *payload, size_t length)
+{
+    sensors_event_t event;
+    dht.humidity().getEvent(&event);
+    String humidity = "";
+    if (!isnan(event.relative_humidity))
+    {
+        humidity = String(event.relative_humidity);
+    }
+    dht.temperature().getEvent(&event);
+    String temperature = "";
+    if (!isnan(event.temperature))
+    {
+        temperature = String(event.temperature);
+    }
+
+    String ret = "";
+    if (temperature == "")
+    {
+        ret += "NaN *C"
+    }
+    else
+    {
+        ret += temperature + " *C";
+    }
+    ret += "|" if (humidity == "")
+    {
+        ret += "NaN%"
+    }
+    else
+    {
+        ret += humidity + "%";
+    }
+    webSocket.emit("re-temp", ret);
+}
 
 void connectSocketServer()
 {
@@ -194,6 +229,7 @@ void connectSocketServer()
     webSocket.on("MACregistration", onRegistrationMac);
     webSocket.on("temperature", onTemperature);
     webSocket.on("humidity", onHumidity);
+    webSocket.on("temp", onTemp);
     webSocket.begin(host, 3000);
     delay(500);
     webSocket.emit("device_connected", getMAC());
