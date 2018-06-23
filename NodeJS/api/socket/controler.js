@@ -34,9 +34,6 @@ var REQ = {
     }
 };
 
-setInterval(function () {
-    pushNotice(REQ);
-}, 10 * 1000 * 60);
 
 function getConnectedDevides(req, res) {
 
@@ -83,6 +80,8 @@ function listDevices(req, res) {
 module.exports = {
     pushNotice: pushNotice,
     getConnectedDevides: getConnectedDevides,
-    listDevices: listDevices
-
+    listDevices: listDevices,
+    refreshDevice: function () {
+        pushNotice(REQ);
+    }
 };

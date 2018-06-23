@@ -59,6 +59,7 @@ function socketHandle(socket) {
             console.log('user with mac ' + mac + ' disconnected');
             connectedClient.delete(mac);
             io.emit("device_disconnected", mac);
+            require('../api/socket/controler').refreshDevice();
         });
     });
 }
