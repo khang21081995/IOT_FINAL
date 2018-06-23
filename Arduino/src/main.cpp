@@ -226,12 +226,12 @@ void onTemp(const char *payload, size_t length)
 
 void connectSocketServer()
 {
-    webSocket.on("send", onSend);
     webSocket.on("MACregistration", onRegistrationMac);
+    webSocket.on("send", onSend);
     webSocket.on("temperature", onTemperature);
     webSocket.on("humidity", onHumidity);
     webSocket.on("temp", onTemp);
-    webSocket.begin(host, 3000);
+    webSocket.begin(host, port);
     delay(500);
     webSocket.emit("device_connected", getMAC());
 }

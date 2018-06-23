@@ -20,7 +20,10 @@ function socketHandle(socket) {
             console.log(data);
             io.emit(mac + "re-temperature", data);
         });
-        
+        socket.on("re-temp", function (data) {
+            console.log(data);
+            io.emit(mac + "re-temp", data);
+        });
         // io.emit("new_device_connected", mac);
         socket.on('disconnect', function () {
             console.log('user with mac ' + mac + ' disconnected');
