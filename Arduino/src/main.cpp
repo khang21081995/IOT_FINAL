@@ -206,15 +206,16 @@ void onTemp(const char *payload, size_t length)
     String ret = "";
     if (temperature == "")
     {
-        ret += "NaN *C"
+        ret += "NaN *C";
     }
     else
     {
         ret += temperature + " *C";
     }
-    ret += "|" if (humidity == "")
+    ret += "|";
+    if (humidity == "")
     {
-        ret += "NaN%"
+        ret += "NaN%";
     }
     else
     {
