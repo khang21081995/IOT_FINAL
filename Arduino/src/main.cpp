@@ -83,6 +83,10 @@ void connectWIFI()
     //     Serial.print('.');
     // }
     WiFiMulti.addAP(ssid, password);
+    WiFiMulti.addAP("HKT Tang 2", "123456789");
+    WiFiMulti.addAP("MSE_Students", "123456789");
+    WiFiMulti.addAP("KhangPQ", "123456789");
+    WiFiMulti.addAP(ssid, password);
     while (WiFiMulti.run() != WL_CONNECTED)
     {
         delay(100);
