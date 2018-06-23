@@ -11,6 +11,12 @@ var device = new Schema({
     deviceMac: {
         type: String
     },
+    temprature: {
+        type: String
+    },
+    humidity: {
+        type: String
+    },
     createTime: {
         type: Date,
         default: Date.now

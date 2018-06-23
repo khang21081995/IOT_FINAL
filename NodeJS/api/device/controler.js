@@ -32,7 +32,9 @@ function get(req, res) {
             var ret = data.map(obj => {
                 return {
                     mac: obj.deviceMac,
-                    name: obj.deviceName
+                    name: obj.deviceName,
+                    temprature: obj.temprature,
+                    humidity: obj.humidity
                 };
             });
             res.json(ret);
