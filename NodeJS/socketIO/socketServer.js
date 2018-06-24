@@ -69,11 +69,13 @@ function socketHandle(socket) {
         socket.on('disconnect', function () {
             clearInterval(refreshIntervalId);
             console.log('user with mac ' + mac + ' disconnected event fire');
-            if (!connectedClient.get(mac).dupp) {
+            console.log(connectedClient.get(mac).dupp);
+            if (connectedClient.get(mac).dupp === undefined) {
                 connectedClient.delete(mac);
                 io.emit("device_disconnected", mac);
                 console.log('user with mac ' + mac + ' disconnected');
-
+            }else{
+                connectedClient.get(mac).dupp = undefined;
             }
         });
     });
