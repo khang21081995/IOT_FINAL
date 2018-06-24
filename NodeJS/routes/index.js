@@ -32,7 +32,7 @@ router.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'IOT_FINAL' });
 });
 
 module.exports = router;

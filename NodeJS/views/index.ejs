@@ -5,16 +5,7 @@
   <title>
     <%= title %>
   </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-
-  <script src="/public/javascripts/common.js"></script>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-
+  <% include template/header %>
 </head>
 
 <body>
@@ -44,7 +35,7 @@
       });
 
       function reload() {
-        callAjax("", "/api/socket/listConnectedDevices", "GET", function (xhr, status) {}, function (xhr, status,
+        callAjax("", "/api/socket/listDevices", "GET", function (xhr, status) {}, function (xhr, status,
           error) {
           if (error) {
             alert("Lỗi lấy dữ liệu!!!\r\nXin vui lòng thử lại");
