@@ -6,3 +6,12 @@ body {
 a {
   color: #00B7FF;
 }
+
+.margin-right {
+  margin-right: 10px;
+}
+
+.margin-full {
+  margin: 5px 5px 5px 5px;
+  vertical-align: middle;
+}

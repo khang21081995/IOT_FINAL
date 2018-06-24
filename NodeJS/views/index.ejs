@@ -16,6 +16,8 @@
         <tr>
           <th>Device Mac</th>
           <th>Device Name</th>
+          <th>Temprature</th>
+          <th>Humidity</th>
           <th colspan="2">Action</th>
         </tr>
       </thead>
@@ -42,13 +44,16 @@
           }
         }, function (result, status, xhr) {
           let item = '<tr>';
-          result.devices.forEach(Element => {
-            item += '<td>' + Element + '</td>'
-            item += '<td>' + 'Tên Thiết bị(//TODO)' + '</td>'
-            item += '<td><a href = "/device?mac=' + Element +
-              '" target="_blank" class = "btn btn-primary" role = "button" > Remote </a></td>'
-            item += '<td><a href = "/addcode?mac=' + Element +
-              '" target="_blank" class = "btn btn-info" role = "button" > Add Code </a></td>'
+          console.log(result);
+          result.forEach(Element => {
+            item += '<td><span class="margin-full">' + Element.mac + '</span></td>'
+            item += '<td><span>' + Element.name + '</span></td>'
+            item += '<td><span>' + Element.temprature + '</span></td>'
+            item += '<td><span>' + Element.humidity + '</span></td>'
+            item += '<td><a href = "/device?mac=' + Element.mac +
+              '" target="_blank" class = "btn btn-primary margin-full" role = "button" > Remote </a>'
+            item += '<a href = "/addcode?mac=' + Element.mac +
+              '" target="_blank" class = "btn btn-info margin-full" role = "button" > Add Code </a></td>'
           });
           tableBody.empty();
           tableBody.append(item + '<tr>');

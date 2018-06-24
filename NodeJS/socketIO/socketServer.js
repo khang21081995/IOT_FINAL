@@ -20,7 +20,7 @@ function socketHandle(socket) {
             socket.dupp = true;
         }
         connectedClient.set(mac, socket);
-
+        io.emit("new_device_connected", mac);
         var model;
         deviceModel.findOrCreate({
             deviceMac: mac
@@ -74,7 +74,7 @@ function socketHandle(socket) {
                 connectedClient.delete(mac);
                 io.emit("device_disconnected", mac);
                 console.log('user with mac ' + mac + ' disconnected');
-            }else{
+            } else {
                 connectedClient.get(mac).dupp = undefined;
             }
         });
