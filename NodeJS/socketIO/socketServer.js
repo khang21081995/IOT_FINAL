@@ -3,10 +3,24 @@ var connectedClient = new Map();
 var deviceModel = require('../api/device/model');
 var log = require('../utils/logger');
 
+// setInterval(function () {
+//     require('../api/socket/controler').refreshDevice();
+// }, 60 * 1000);
+
 function socketHandle(socket) {
     console.log("New user!!!");
+    var refreshIntervalId = setInterval(function () {
+        socket.emit("temp", "Get Temp and Humidity!");
+    }, 60 * 1000);
     socket.on("device_connected", function (data) {
         var mac = data;
+        if (connectedClient.get(mac)) {
+            console.log("DUPP");
+            connectedClient.delete(mac);
+            socket.dupp = true;
+        }
+        connectedClient.set(mac, socket);
+
         var model;
         deviceModel.findOrCreate({
             deviceMac: mac
@@ -18,7 +32,7 @@ function socketHandle(socket) {
         });
 
         console.log("User with mac: " + mac + " connected");
-        connectedClient.set(mac, socket);
+
 
         socket.on("addData", function (data) {
             console.log(data);
@@ -50,16 +64,17 @@ function socketHandle(socket) {
             }
             io.emit(mac + "_re-temp", data);
         });
-        var refreshIntervalId = setInterval(function () {
-            socket.emit("temp", "Get Temp and Humidity!");
-        }, 60 * 1000);
+
         // io.emit("new_device_connected", mac);
         socket.on('disconnect', function () {
             clearInterval(refreshIntervalId);
-            console.log('user with mac ' + mac + ' disconnected');
-            connectedClient.delete(mac);
-            io.emit("device_disconnected", mac);
-            require('../api/socket/controler').refreshDevice();
+            console.log('user with mac ' + mac + ' disconnected event fire');
+            if (!connectedClient.get(mac).dupp) {
+                connectedClient.delete(mac);
+                io.emit("device_disconnected", mac);
+                console.log('user with mac ' + mac + ' disconnected');
+
+            }
         });
     });
 }
