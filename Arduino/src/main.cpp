@@ -20,11 +20,11 @@
 
 DHT_Unified dht(DHTPIN, DHTTYPE);
 
-uint32_t delayMS;
-extern "C"
-{
-#include "user_interface.h"
-}
+// uint32_t delayMS;
+// extern "C"
+// {
+// #include "user_interface.h"
+// }
 
 /**
  * IR config
@@ -35,11 +35,11 @@ extern "C"
 // 115200
 #define CAPTURE_BUFFER_SIZE 1024
 
-#if DECODE_AC
+// #if DECODE_AC
 #define TIMEOUT 50U
-#else               // DECODE_AC
-#define TIMEOUT 15U // Suits most messages, while not swallowing many repeats.
-#endif              // DECODE_AC
+// #else               // DECODE_AC
+// #define TIMEOUT 15U // Suits most messages, while not swallowing many repeats.
+// #endif              // DECODE_AC
 #define MIN_UNKNOWN_SIZE 12
 // ==================== end of TUNEABLE PARAMETERS ====================
 
@@ -58,6 +58,8 @@ SocketIoClient webSocket;
 // char host[] = "192.168.5.9";
 char *host = "nginx.30shine.com";
 int port = 28888;
+// char *host = "192.168.5.9";
+// int port = 28888;
 
 /**
  * WiFi config
@@ -237,7 +239,7 @@ void connectSocketServer()
     webSocket.on("temp", onTemp);
     webSocket.begin(host, port);
     delay(500);
-    webSocket.emit("device_connected", getMAC());
+    // webSocket.emit("device_connected", getMAC());
 }
 
 void setup()
@@ -266,10 +268,10 @@ void loop()
     webSocket.loop();
     if (irrecv.decode(&results))
     {
-        String data = resultToSourceCode(&results);
-        // Serial.println();
+        // String data = resultToSourceCode(&results);
         webSocket.emit("addData", buildRawForm(&results));
-        yield(); // Feed the WDT (again)
+        // yield(); // Feed the WDT (again)
+        delay(500);
         irrecv.resume();
     }
 }
