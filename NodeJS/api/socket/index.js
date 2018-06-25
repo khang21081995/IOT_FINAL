@@ -35,7 +35,7 @@ router.post("/push", controller.pushNotice);
 
 
 /**
- * @swagger
+ *** @swagger
  * /socket/listMacOnline:
  *   get:
  *     tags:

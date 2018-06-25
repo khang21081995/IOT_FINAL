@@ -68,7 +68,7 @@ router.put('/', controller.updateDevice);
 
 
 /**
- * @swagger
+ ** @swagger
  * /device/get:
  *   post:
  *     tags:

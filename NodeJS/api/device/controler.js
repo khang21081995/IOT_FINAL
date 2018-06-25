@@ -23,6 +23,13 @@ function addOrUpdateDeviceName(req, res) {
 
 function get(req, res) {
     var macList = req.body.macList || [];
+    // res.json([{
+    //     mac: "7e:e9:17:2d:e6:b4",
+    //     name: "Phòng ngủ",
+    //     temprature: 20.7,
+    //     humidity: 71.2
+    // }]);
+    // return;
     model.find().where('deviceMac').in(macList).exec(function (err, data) {
         if (err) {
             res.status(503).json({
