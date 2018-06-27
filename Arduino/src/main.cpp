@@ -56,7 +56,7 @@ ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
 
 // char host[] = "192.168.5.9";
-char *host = "nginx.30shine.com";
+char *host = "schedule.30shine.com";
 int port = 28888;
 // char *host = "192.168.5.9";
 // int port = 28888;
@@ -242,6 +242,8 @@ void connectSocketServer()
     // webSocket.emit("device_connected", getMAC());
 }
 
+#define BUTTON_PIN 2
+
 void setup()
 {
     // 115200
@@ -250,6 +252,7 @@ void setup()
     while (!Serial) // Wait for the serial connection to be establised.
         delay(50);
     pinMode(BUILTIN_LED, OUTPUT);
+    pinMode(BUTTON_PIN, INPUT);
     digitalWrite(BUILTIN_LED, HIGH);
     connectWIFI();
     connectSocketServer();
@@ -261,11 +264,18 @@ void setup()
     irsend.begin();
     irrecv.enableIRIn(); // Start the receiver
 }
-
+int stage = 0;
 void loop()
 {
-
+    int tmp = digitalRead(BUTTON_PIN);
+    if (stage != tmp)
+    {
+        stage = tmp;
+        webSocket.emit("changeStage", tmp == 1 ? "\"ON\"" : "\"OFF\"");
+        // delay(200);
+    }
     webSocket.loop();
+
     if (irrecv.decode(&results))
     {
         // String data = resultToSourceCode(&results);
