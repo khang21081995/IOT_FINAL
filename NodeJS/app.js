@@ -26,7 +26,7 @@ db.on('error', function (err) {
 db.once('open', function () {
     log.info("DB connection success! ");
     console.log("DB connection success! ");
-    require('./socketIO/socketServer').io.emit('MACregistration', 'using for client still running and server is restart');
+    // require('./socketIO/socketServer').io.emit('MACregistration', 'using for client still running and server is restart');
 });
 
 

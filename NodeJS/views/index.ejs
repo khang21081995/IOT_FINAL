@@ -31,7 +31,6 @@
 
       console.log('window - onload');
       var socket = io();
-      socket.emit("web_connected")
       socket.on("7e:e9:17:2d:e6:b4_add_data", function (data) {
         console.log(data);
       });

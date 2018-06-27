@@ -12,6 +12,7 @@ function socketHandle(socket) {
     var refreshIntervalId = setInterval(function () {
         socket.emit("temp", "Get Temp and Humidity!");
     }, 60 * 1000);
+    socket.emit("MACregistration", "Something to get mac");
     socket.on("device_connected", function (data) {
         var mac = data;
         if (connectedClient.get(mac)) {
@@ -32,7 +33,10 @@ function socketHandle(socket) {
         });
 
         console.log("User with mac: " + mac + " connected");
-
+        socket.on("changeStage", function (stage) {
+             console.log('change stage:' + stage);
+             io.emit(mac + "_change_stage", stage);
+        });
 
         socket.on("addData", function (data) {
             console.log(data);
@@ -69,7 +73,7 @@ function socketHandle(socket) {
         socket.on('disconnect', function () {
             clearInterval(refreshIntervalId);
             console.log('user with mac ' + mac + ' disconnected event fire');
-            console.log(connectedClient.get(mac).dupp);
+            // console.log(connectedClient.get(mac).dupp);
             if (connectedClient.get(mac).dupp === undefined) {
                 connectedClient.delete(mac);
                 io.emit("device_disconnected", mac);
